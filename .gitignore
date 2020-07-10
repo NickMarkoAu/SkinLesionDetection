@@ -1,0 +1,6 @@
+
+CustomVision/src/main/resources/TrainingImages/
+
+CustomVision/target/classes/TrainingImages/
+
+*.jpg
