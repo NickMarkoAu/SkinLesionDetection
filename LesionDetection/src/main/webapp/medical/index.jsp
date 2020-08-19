@@ -10,8 +10,6 @@
 
     </head>
     <body id="LoginForm">
-        <%
-        %>
         <div class="container">
             <div class="login-form">
                 <div class="main-div">
