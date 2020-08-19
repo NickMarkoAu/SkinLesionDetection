@@ -6,3 +6,5 @@ CustomVision/target/classes/TrainingImages/
 *.jpg
 
 LesionDetection/target/ROOT.war
+
+*.class
