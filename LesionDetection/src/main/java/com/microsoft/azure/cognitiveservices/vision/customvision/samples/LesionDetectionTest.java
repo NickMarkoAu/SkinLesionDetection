@@ -29,6 +29,11 @@ import com.microsoft.azure.cognitiveservices.vision.customvision.prediction.mode
 import com.microsoft.azure.cognitiveservices.vision.customvision.prediction.CustomVisionPredictionClient;
 import com.microsoft.azure.cognitiveservices.vision.customvision.prediction.CustomVisionPredictionManager;
 import com.microsoft.azure.cognitiveservices.vision.customvision.training.models.Tag;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -77,8 +82,8 @@ public class LesionDetectionTest {
                 System.out.println("Adding images for " + me.getKey() + "...");
                 SkinLesion lesion = new SkinLesion();
                 ArrayList byClass = lesion.getByClassification(me.getKey().toString());
-                for (int i = 0; i<byClass.size(); i++) {
-                    lesion = (SkinLesion)byClass.get(i);
+                for (int i = 0; i < byClass.size(); i++) {
+                    lesion = (SkinLesion) byClass.get(i);
                     String fileName = lesion.fileName + ".jpg";
                     byte[] contents = GetImage("/TrainingData", fileName);
                     AddImageToProject(trainer, project, fileName, contents, lesionTag.id(), null);
@@ -166,6 +171,73 @@ public class LesionDetectionTest {
         }
         return null;
     }
+
+    private static byte[] getImageFromURL(String imgUrl) throws IOException {
+        URL url = new URL(imgUrl);
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        URLConnection conn = url.openConnection();
+        conn.setRequestProperty("User-Agent", "Firefox");
+
+        try ( InputStream inputStream = conn.getInputStream()) {
+            int n = 0;
+            byte[] buffer = new byte[1024];
+            while (-1 != (n = inputStream.read(buffer))) {
+                output.write(buffer, 0, n);
+            }
+        }
+        byte[] img = output.toByteArray();
+        return img;
+    }
+
+    public ArrayList predict(String imgUrl) throws IOException {
+        final String predictionApiKey = "44ca5a318b3040188f0b17bc29db9427";
+
+        final String Endpoint = "https://australiaeast.api.cognitive.microsoft.com/";
+
+        CustomVisionPredictionClient predictor = CustomVisionPredictionManager.authenticate("https://{Endpoint}/customvision/v3.0/prediction/", predictionApiKey).withEndpoint(Endpoint);
+
+        byte[] testImage = getImageFromURL(imgUrl);
+
+        // predict
+        ImagePrediction results = predictor.predictions().classifyImage()
+                .withProjectId(UUID.fromString("ad515133-46e4-4097-a0c3-9a07a5c14bff"))
+                .withPublishedName("Iteration2")
+                .withImageData(testImage)
+                .execute();
+
+        ArrayList result = new ArrayList();
+        HashMap<String, Double> resultMap = new HashMap<>();
+        for (Prediction prediction : results.predictions()) {
+            if (prediction.probability() * 100.0f > 5) {
+                result.add(String.format("\t%s: %.2f%%", Classification.allClass().get(prediction.tagName()), prediction.probability() * 100.0f));
+            }
+            resultMap.put(prediction.tagName(), prediction.probability() * 100.0f);
+        }
+        //System.out.println(result);
+
+        double maxResult = 0;
+        String maxDx = null;
+        for (Map.Entry me : resultMap.entrySet()) {
+            if ((Double) me.getValue() > maxResult) {
+                maxResult = (Double) me.getValue();
+                maxDx = me.getKey().toString();
+            }
+        }
+        String dxString = "";
+        if (maxResult < 40) {
+            dxString += "<br><b>Diagnosis is inconclusive. Please check with a medical professional.</b>";
+        } else {
+            dxString += "<br><b>Diagnosis is " + Classification.allClass().get(maxDx) + " and is likely ";
+
+            if (Classification.likelyBenign(maxDx)) {
+                dxString += "benign</b>";
+            } else {
+                dxString += "malignant</b>";
+            }
+        }
+        result.add(dxString);
+        return result;
+    }
     // </snippet_helpers>
 
     /**
@@ -173,7 +245,7 @@ public class LesionDetectionTest {
      *
      * @param args the parameters
      */
-    public static void main(String[] args) {
+    /* public static void main(String[] args) {
         try {
             //=============================================================
             // Authenticate
@@ -191,5 +263,5 @@ public class LesionDetectionTest {
             System.out.println(e.getMessage());
             e.printStackTrace();
         }
-    }
+    } */
 }
