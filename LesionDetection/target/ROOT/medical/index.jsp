@@ -44,7 +44,7 @@
         </header>      
         <main role="main" class="flex-shrink-0">
             <div class="container text-center">
-                <img class="mx-auto d-block" style="margin-top:10rem;max-width:300px;" src="logo.png">
+                <img class="mx-auto d-block" style="margin-top:10rem;max-width:300px;" src="../logo.png">
                 <div class="text-center" style="max-width:50%;margin:6rem auto 6rem auto;color:#333">
                     <form id="Login" action="log.jsp">
                         <div class="form-group">
@@ -67,7 +67,10 @@
         </main>
         <footer class="footer mt-auto py-3" style="background-color:#f5f5f5">
             <div class="container">
-                <span class="text-muted">Skin deep is still under active development. As such there may be visual discrepancies. <a class="btn btn-secondary float-right" href='../medical/index.jsp'>Medical Professional Login</a></span>
+                <p class="text-muted">Important Note: This software is currently running wihout security features such as https and encryption.
+                	<br>Skin deep is still under active development. 
+                	<br>As such there may be visual discrepancies and programming errors that are still being addressed.<a class="btn btn-secondary float-right" href="mailto:admin@tetradeca.com.au">Report Issue</a>
+                </p>
             </div>
         </footer>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
