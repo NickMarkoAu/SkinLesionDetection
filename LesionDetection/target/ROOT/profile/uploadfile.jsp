@@ -14,8 +14,7 @@
     int maxMemSize = 5000 * 1024;
     ServletContext context = pageContext.getServletContext();
     String filePath = "/home/tetradeca/apache-tomcat-9.0.37/webapps/uploads/lesions/";
-    String id = request.getParameter("id").replaceAll(" ", "");
-
+    String id = request.getParameter("id");
     String fileExtend = id;
     File newfolder = new File(filePath, fileExtend);
     newfolder.mkdir();

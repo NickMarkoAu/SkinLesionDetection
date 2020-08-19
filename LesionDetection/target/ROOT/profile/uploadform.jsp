@@ -49,7 +49,7 @@
     <center>
         <% String id = request.getParameter("id");
         %>
-        <form action = "uploadfile.jsp?id=<%=id%>; method = "post"
+        <form action = "uploadfile.jsp?id=<%=id%>" method = "post"
               enctype = "multipart/form-data" id="fileUpload">
             <label class="fileContainer">
                 <i class="fas fa-cloud-upload-alt"></i>&nbsp;Upload Image
