@@ -51,6 +51,7 @@
                     <button class='next' type='button' onclick="window.location.href = 'newLesion.jsp'">Add Entry</button>
                 </td>
             </tr>
+            <% } else { %>
             <% for (int i = 0; i < entryList.size(); i++) {
                     lesion = (LesionEntry) entryList.get(i);%>
             <tr>
@@ -69,6 +70,8 @@
             </tr>
             <% }%>
         </table>
+        <button class='next' type='button' onclick="window.location.href = 'newLesion.jsp'">Add Entry</button>
+        <% }%>
     </center>
     <jsp:include page="../footer.jsp" flush="true" />
 

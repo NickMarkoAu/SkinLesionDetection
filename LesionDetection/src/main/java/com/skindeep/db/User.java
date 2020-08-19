@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  *
@@ -65,6 +66,14 @@ public class User {
         con = db.getConnect();
         updatePassword(pass);
         con.close();
+    }
+
+    public ArrayList getPatients() throws SQLException {
+        con = db.getConnect();
+        ArrayList result = selectPatients();
+        con.close();
+        con = null;
+        return result;
     }
     //DB Methods
 
@@ -133,6 +142,21 @@ public class User {
         prepStmt.close();
         rs.close();
         return false;
+    }
+
+    private ArrayList selectPatients() throws SQLException {
+        String stmt = "SELECT * FROM user WHERE type='patient'";
+        PreparedStatement prepStmt = con.prepareStatement(stmt);
+        ArrayList result = new ArrayList();
+        ResultSet rs = prepStmt.executeQuery();
+        while (rs.next()) {
+            User user = new User();
+            user.getResultData(rs);
+            result.add(user);
+        }
+        prepStmt.close();
+        rs.close();
+        return result;
     }
 
     private void updatePassword(String pass) throws SQLException {

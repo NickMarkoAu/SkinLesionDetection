@@ -7,14 +7,10 @@ package com.microsoft.azure.cognitiveservices.vision.customvision.samples;
 
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.UUID;
 
 import com.google.common.io.ByteStreams;
 
-import com.microsoft.azure.cognitiveservices.vision.customvision.training.models.Classifier;
-import com.microsoft.azure.cognitiveservices.vision.customvision.training.models.Domain;
-import com.microsoft.azure.cognitiveservices.vision.customvision.training.models.DomainType;
 import com.microsoft.azure.cognitiveservices.vision.customvision.training.models.ImageFileCreateBatch;
 import com.microsoft.azure.cognitiveservices.vision.customvision.training.models.ImageFileCreateEntry;
 import com.microsoft.azure.cognitiveservices.vision.customvision.training.models.Iteration;
@@ -23,7 +19,6 @@ import com.microsoft.azure.cognitiveservices.vision.customvision.training.models
 import com.microsoft.azure.cognitiveservices.vision.customvision.training.models.TrainProjectOptionalParameter;
 import com.microsoft.azure.cognitiveservices.vision.customvision.training.CustomVisionTrainingClient;
 import com.microsoft.azure.cognitiveservices.vision.customvision.training.Trainings;
-import com.microsoft.azure.cognitiveservices.vision.customvision.training.CustomVisionTrainingManager;
 import com.microsoft.azure.cognitiveservices.vision.customvision.prediction.models.ImagePrediction;
 import com.microsoft.azure.cognitiveservices.vision.customvision.prediction.models.Prediction;
 import com.microsoft.azure.cognitiveservices.vision.customvision.prediction.CustomVisionPredictionClient;
@@ -237,6 +232,58 @@ public class LesionDetectionTest {
         }
         result.add(dxString);
         return result;
+    }
+
+    public HashMap predictMap(String imgUrl) throws IOException {
+        final String predictionApiKey = "44ca5a318b3040188f0b17bc29db9427";
+
+        final String Endpoint = "https://australiaeast.api.cognitive.microsoft.com/";
+
+        CustomVisionPredictionClient predictor = CustomVisionPredictionManager.authenticate("https://{Endpoint}/customvision/v3.0/prediction/", predictionApiKey).withEndpoint(Endpoint);
+
+        byte[] testImage = getImageFromURL(imgUrl);
+
+        // predict
+        ImagePrediction results = predictor.predictions().classifyImage()
+                .withProjectId(UUID.fromString("ad515133-46e4-4097-a0c3-9a07a5c14bff"))
+                .withPublishedName("Iteration2")
+                .withImageData(testImage)
+                .execute();
+
+        ArrayList result = new ArrayList();
+        HashMap<String, Double> resultMap = new HashMap<>();
+        for (Prediction prediction : results.predictions()) {
+            if (prediction.probability() * 100.0f > 5) {
+                result.add(String.format("\t%s: %.2f%%", Classification.allClass().get(prediction.tagName()), prediction.probability() * 100.0f));
+            }
+            resultMap.put(prediction.tagName(), prediction.probability() * 100.0f);
+        }
+
+        return resultMap;
+    }
+
+    public String maxDx(HashMap<String, Double> resultMap) {
+        double maxResult = 0;
+        String maxDx = null;
+        for (Map.Entry me : resultMap.entrySet()) {
+            if ((Double) me.getValue() > maxResult) {
+                maxResult = (Double) me.getValue();
+                maxDx = me.getKey().toString();
+            }
+        }
+        String dxString = "";
+        if (maxResult < 40) {
+            dxString += "<br><b>Diagnosis is inconclusive. Please check with a medical professional.</b>";
+        } else {
+            dxString += "<br><b>Diagnosis is " + Classification.allClass().get(maxDx) + " and is likely ";
+
+            if (Classification.likelyBenign(maxDx)) {
+                dxString += "benign</b>";
+            } else {
+                dxString += "malignant</b>";
+            }
+        }
+        return dxString;
     }
     // </snippet_helpers>
 

@@ -37,6 +37,7 @@ public class LesionEntry {
     public String description;
     public String image;
     public String bodyPart;
+    public boolean diagnosed;
 
     private Connection con;
     private Db db = new Db();
@@ -71,8 +72,12 @@ public class LesionEntry {
         con = null;
     }
 
-    public int getNextId() {
-        return 0;
+    public int getNextId() throws SQLException {
+        con = db.getConnect();
+        int result = selectNextId();
+        con.close();
+        con = null;
+        return result;
     }
 
     private ArrayList selectByUser(int userId) throws SQLException {
@@ -102,7 +107,7 @@ public class LesionEntry {
     }
 
     private void insert() throws SQLException {
-        String stmt = "INSERT INTO lesions (lesionId, userId, description, image, dateLogged, bodyPart) VALUES (?,?,?,?,?,?)";
+        String stmt = "INSERT INTO lesions (lesionId, userId, description, image, dateLogged, bodyPart, diagnosed) VALUES (?,?,?,?,?,?,?)";
         try ( PreparedStatement prepStmt = con.prepareStatement(stmt)) {
             prepStmt.setInt(1, lesionId);
             prepStmt.setInt(2, userId);
@@ -110,8 +115,22 @@ public class LesionEntry {
             prepStmt.setString(4, image);
             prepStmt.setString(5, dateLogged.toDb());
             prepStmt.setString(6, bodyPart);
+            prepStmt.setBoolean(7, diagnosed);
             prepStmt.executeUpdate();
         }
+    }
+
+    private int selectNextId() throws SQLException {
+        String stmt = "SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = 'skindeep' AND TABLE_NAME = 'lesions'";
+        PreparedStatement prepStmt = con.prepareStatement(stmt);
+        int result = 0;
+        ResultSet rs = prepStmt.executeQuery();
+        while (rs.next()) {
+            result = rs.getInt("AUTO_INCREMENT");
+        }
+        prepStmt.close();
+        rs.close();
+        return result;
     }
 
     protected void getResultData(ResultSet rs) throws SQLException {
@@ -120,6 +139,7 @@ public class LesionEntry {
         this.description = rs.getString("descr");
         this.image = rs.getString("image");
         this.bodyPart = rs.getString("bodyPart");
+        this.diagnosed = rs.getBoolean("diagnosed");
         try {
             this.dateLogged = new OzDate(rs.getString("dateLogged"));
             this.dateNoticed = new OzDate(rs.getString("dateNoticed"));

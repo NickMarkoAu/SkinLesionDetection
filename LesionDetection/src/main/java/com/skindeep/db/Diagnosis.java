@@ -33,13 +33,14 @@ public class Diagnosis {
     private int dxId;
     public int userId;
     public int lesionId;
-    public float akiec;
-    public float bcc;
-    public float bkl;
-    public float df;
-    public float mel;
-    public float nv;
-    public float vasc;
+    public double akiec;
+    public double bcc;
+    public double bkl;
+    public double df;
+    public double mel;
+    public double nv;
+    public double vasc;
+    public String prediction, doctorDx;
     public boolean verified;
 
     public Diagnosis() {
@@ -65,19 +66,21 @@ public class Diagnosis {
     }
 
     private void insert() throws SQLException {
-        String stmt = "INSERT INTO diagnosis (dxId, userId, lesionId, akiec, bcc, bkl, df, mel, nv, vasc, verified) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+        String stmt = "INSERT INTO diagnosis (dxId, userId, lesionId, akiec, bcc, bkl, df, mel, nv, vasc, prediction, verified, doctorDx) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
         PreparedStatement prepStmt = con.prepareStatement(stmt);
         prepStmt.setInt(1, dxId);
         prepStmt.setInt(2, userId);
         prepStmt.setInt(3, lesionId);
-        prepStmt.setFloat(4, akiec);
-        prepStmt.setFloat(5, bcc);
-        prepStmt.setFloat(6, bkl);
-        prepStmt.setFloat(7, df);
-        prepStmt.setFloat(8, mel);
-        prepStmt.setFloat(9, nv);
-        prepStmt.setFloat(10, vasc);
-        prepStmt.setBoolean(11, verified);
+        prepStmt.setDouble(4, akiec);
+        prepStmt.setDouble(5, bcc);
+        prepStmt.setDouble(6, bkl);
+        prepStmt.setDouble(7, df);
+        prepStmt.setDouble(8, mel);
+        prepStmt.setDouble(9, nv);
+        prepStmt.setDouble(10, vasc);
+        prepStmt.setString(11, prediction);
+        prepStmt.setBoolean(12, verified);
+        prepStmt.setString(13, doctorDx);
         prepStmt.executeUpdate();
         prepStmt.close();
     }
@@ -98,14 +101,16 @@ public class Diagnosis {
         dxId = rs.getInt("dxId");
         userId = rs.getInt("userId");
         lesionId = rs.getInt("lesionId");
-        akiec = rs.getFloat("akiec");
-        bcc = rs.getFloat("bcc");
-        bkl = rs.getFloat("bkl");
-        df = rs.getFloat("df");
-        mel = rs.getFloat("mel");
-        nv = rs.getFloat("nv");
-        vasc = rs.getFloat("vasc");
+        akiec = rs.getDouble("akiec");
+        bcc = rs.getDouble("bcc");
+        bkl = rs.getDouble("bkl");
+        df = rs.getDouble("df");
+        mel = rs.getDouble("mel");
+        nv = rs.getDouble("nv");
+        vasc = rs.getDouble("vasc");
         verified = rs.getBoolean("verified");
+        prediction = rs.getString("prediction");
+        doctorDx = rs.getString("doctorDx");
     }
 
 }

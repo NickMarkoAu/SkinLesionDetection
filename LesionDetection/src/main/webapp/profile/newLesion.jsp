@@ -48,8 +48,9 @@
                         <br>
                         <p>Please wait until a blue tick appears below before clicking diagnose</p>
                         <br>
-                        <iframe src="../uploadform.jsp?id=<%=nextId%>" height="100" width="250" frameBorder="0"></iframe>
+                        <iframe src="uploadform.jsp?id=<%=nextId%>" height="100" width="250" frameBorder="0"></iframe>
                         <br>
+                        <input type="hidden" name="id" value="<%=nextId%>">
                         <button class="next" type="submit">Submit</button>
                     </form>
                 </td>
