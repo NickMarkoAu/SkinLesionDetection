@@ -10,9 +10,13 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" href="../partSelector/index.css">
+        <link rel="stylesheet" href="../mainstyle.css">
         <title>New Spot</title>
     </head>
     <body>
+        <jsp:include page="../header.jsp" flush="true" />
+
         <%
             LesionEntry lesion = new LesionEntry();
             int nextId = lesion.getNextId();
@@ -56,5 +60,7 @@
                 </td>
             </tr>
         </table>   
+        <jsp:include page="../footer.jsp" flush="true" />
+
     </body>
 </html>

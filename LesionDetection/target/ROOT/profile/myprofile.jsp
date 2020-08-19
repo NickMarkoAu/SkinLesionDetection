@@ -15,14 +15,22 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <link rel="stylesheet" href="../partSelector/index.css">
+        <link rel="stylesheet" href="../mainstyle.css">
+
         <script type="text/javascript" src="../partSelector/index.js"></script>
     </head>
     <body>
         <% ArrayList entryList = new ArrayList();
-            if (session.getAttribute("user") == null) {
+
+            int userId = 0;
+            try {
+                userId = (Integer) session.getAttribute("user");
+            } catch (NullPointerException e) {
                 response.sendRedirect("index.jsp");
             }
-            int userId = (Integer) session.getAttribute("user");
+            if (session.getAttribute("user") == null || userId == 0) {
+                response.sendRedirect("index.jsp");
+            }
             LesionEntry lesion = new LesionEntry();
             entryList = lesion.getByUser(userId);%>
         <jsp:include page="../header.jsp" flush="true" />
