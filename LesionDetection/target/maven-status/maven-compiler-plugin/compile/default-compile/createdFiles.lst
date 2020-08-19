@@ -1,11 +1,12 @@
+com\microsoft\azure\cognitiveservices\vision\customvision\samples\SkinLesion.class
+utils\BadDateException.class
+utils\OzDate.class
+com\skindeep\db\Diagnosis.class
+com\skindeep\db\LesionEntry.class
+com\skindeep\db\User.class
 utils\Db.class
 utils\Log.class
 utils\PasswordAuthentication.class
 com\microsoft\azure\cognitiveservices\vision\customvision\samples\LesionDetectionTest.class
 utils\Var.class
-com\microsoft\azure\cognitiveservices\vision\customvision\samples\SkinLesion.class
-utils\BadDateException.class
-utils\OzDate.class
 com\microsoft\azure\cognitiveservices\vision\customvision\samples\Classification.class
-com\skindeep\db\LesionEntry.class
-com\skindeep\db\User.class
