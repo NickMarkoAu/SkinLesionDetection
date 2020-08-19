@@ -68,7 +68,7 @@ public class Diagnosis {
     private void insert() throws SQLException {
         String stmt = "INSERT INTO diagnosis (dxId, userId, lesionId, akiec, bcc, bkl, df, mel, nv, vasc, prediction, verified, doctorDx) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
         PreparedStatement prepStmt = con.prepareStatement(stmt);
-        prepStmt.setInt(1, dxId);
+        prepStmt.setInt(1, 0);
         prepStmt.setInt(2, userId);
         prepStmt.setInt(3, lesionId);
         prepStmt.setDouble(4, akiec);

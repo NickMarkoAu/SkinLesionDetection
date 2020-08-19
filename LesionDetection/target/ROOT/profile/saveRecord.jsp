@@ -19,7 +19,7 @@
     </head>
     <body>
         <%
-            
+
             LesionEntry lesion = new LesionEntry();
             lesion.bodyPart = request.getParameter("bodyPart");
             lesion.dateLogged = new OzDate(0);
@@ -33,18 +33,19 @@
                     lesion.image = "http://skindeep.tetradeca.com.au/uploads/lesions/" + request.getParameter("id") + "/" + fileList[i].getName();
                 }
             }
-            lesion.userId = Integer.parseInt((String) session.getAttribute("userId"));
+            lesion.userId = (Integer) session.getAttribute("user");
+
             try {
                 lesion.store();
             } catch (SQLException e) {
                 throw new JspException("Could not store lesion record details, please try again");
             }
-            
+
             Diagnosis dx = new Diagnosis();
             LesionDetectionTest detect = new LesionDetectionTest();
             HashMap<String, Double> resultMap = new HashMap<>();
             resultMap = detect.predictMap(lesion.image);
-            
+
             dx.akiec = resultMap.get("akiec");
             dx.bcc = resultMap.get("bcc");
             dx.bkl = resultMap.get("bkl");
@@ -60,7 +61,7 @@
                 throw new JspException("Could not store lesion record details, please try again");
             }
             response.sendRedirect("myprofile.jsp");
-            
+
         %>
     </body>
 </html>

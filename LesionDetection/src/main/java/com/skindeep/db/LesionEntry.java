@@ -108,16 +108,17 @@ public class LesionEntry {
 
     private void insert() throws SQLException {
         String stmt = "INSERT INTO lesions (lesionId, userId, description, image, dateLogged, bodyPart, diagnosed) VALUES (?,?,?,?,?,?,?)";
-        try ( PreparedStatement prepStmt = con.prepareStatement(stmt)) {
-            prepStmt.setInt(1, lesionId);
-            prepStmt.setInt(2, userId);
-            prepStmt.setString(3, description);
-            prepStmt.setString(4, image);
-            prepStmt.setString(5, dateLogged.toDb());
-            prepStmt.setString(6, bodyPart);
-            prepStmt.setBoolean(7, diagnosed);
-            prepStmt.executeUpdate();
-        }
+        PreparedStatement prepStmt = con.prepareStatement(stmt);
+        prepStmt.setInt(1, 0);
+        prepStmt.setInt(2, userId);
+        prepStmt.setString(3, description);
+        prepStmt.setString(4, image);
+        prepStmt.setString(5, dateLogged.toDb());
+        prepStmt.setString(6, bodyPart);
+        prepStmt.setBoolean(7, diagnosed);
+        prepStmt.executeUpdate();
+        prepStmt.close();
+
     }
 
     private int selectNextId() throws SQLException {
