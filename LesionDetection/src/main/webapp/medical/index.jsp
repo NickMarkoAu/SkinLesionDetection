@@ -44,7 +44,7 @@
         </header>      
         <main role="main" class="flex-shrink-0">
             <div class="container text-center">
-                <img class="mx-auto d-block" style="margin-top:10rem;max-width:300px;" src="logo.png">
+                <img class="mx-auto d-block" style="margin-top:10rem;max-width:300px;" src="../logo.png">
                 <div class="text-center" style="max-width:50%;margin:6rem auto 6rem auto;color:#333">
                     <form id="Login" action="log.jsp">
                         <div class="form-group">
