@@ -19,10 +19,10 @@
     </head>
     <body>
         <% ArrayList entryList = new ArrayList();
-            if ((String) session.getAttribute("userId") == null) {
+            if (session.getAttribute("user") == null) {
                 response.sendRedirect("index.jsp");
             }
-            int userId = Integer.parseInt((String) session.getAttribute("user"));
+            int userId = (Integer) session.getAttribute("user");
             LesionEntry lesion = new LesionEntry();
             int nextId = lesion.getNextId();
             entryList = lesion.getByUser(userId);%>

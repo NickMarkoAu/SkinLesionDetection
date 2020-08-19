@@ -13,8 +13,6 @@
         <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v7.0&appId=3247245835287046&autoLogAppEvents=1" nonce="2G8kbB0p"></script>
         <jsp:include page="../header.jsp" flush="true" />
 
-        <%
-        %>
         <div class="container">
             <div class="login-form">
                 <div class="main-div">

@@ -18,7 +18,7 @@ import java.sql.SQLException;
  */
 public class User {
 
-    public String userName, passHash, firstName, surName, email, phone, type;
+    public String userName, passHash, firstName, surName, phone, type;
     public int userId;
     public OzDate lastLog;
 
@@ -47,17 +47,16 @@ public class User {
         con.close();
     }
 
-    public boolean hasAccount(String email) throws SQLException {
+    public int getIdByEmail(String email) throws SQLException {
         con = db.getConnect();
-        boolean result = selectHasAccount(email);
+        int result = selectIdByEmail(email);
         con.close();
         return result;
     }
 
-    public int getUserId(String user) throws SQLException {
+    public boolean hasAccount(String email) throws SQLException {
         con = db.getConnect();
-        int result = 0;
-        result = selectByName(user);
+        boolean result = selectHasAccount(email);
         con.close();
         return result;
     }
@@ -70,16 +69,15 @@ public class User {
     //DB Methods
 
     private void insertUser() throws SQLException {
-        String stmt = "INSERT INTO user (userId, userName, passHash, firstName, surName, email, phone, type) VALUES (?,?,?,?,?,?,?,?)";
+        String stmt = "INSERT INTO user (userId, userName, passHash, firstName, surName, phone, type) VALUES (?,?,?,?,?,?,?)";
         PreparedStatement prepStmt = con.prepareStatement(stmt);
         prepStmt.setInt(1, 0);
         prepStmt.setString(2, userName);
         prepStmt.setString(3, passHash);
         prepStmt.setString(4, firstName);
         prepStmt.setString(5, surName);
-        prepStmt.setString(6, email);
-        prepStmt.setString(7, phone);
-        prepStmt.setString(8, type);
+        prepStmt.setString(6, phone);
+        prepStmt.setString(7, type);
         prepStmt.executeUpdate();
         prepStmt.close();
     }
@@ -97,7 +95,7 @@ public class User {
     }
 
     private void selectByEmail(String email) throws SQLException {
-        String stmt = "SELECT * FROM user WHERE email=?";
+        String stmt = "SELECT * FROM user WHERE userName=?";
         PreparedStatement prepStmt = con.prepareStatement(stmt);
         prepStmt.setString(1, email);
         ResultSet rs = prepStmt.executeQuery();
@@ -108,8 +106,22 @@ public class User {
         prepStmt.close();
     }
 
+    private int selectIdByEmail(String email) throws SQLException {
+        String stmt = "SELECT * FROM user WHERE userName=?";
+        PreparedStatement prepStmt = con.prepareStatement(stmt);
+        prepStmt.setString(1, email);
+        ResultSet rs = prepStmt.executeQuery();
+        int result = 0;
+        while (rs.next()) {
+            result = rs.getInt("userId");
+        }
+        rs.close();
+        prepStmt.close();
+        return result;
+    }
+
     private boolean selectHasAccount(String email) throws SQLException {
-        String stmt = "SELECT * FROM user WHERE email=?";
+        String stmt = "SELECT * FROM user WHERE userName=?";
         PreparedStatement prepStmt = con.prepareStatement(stmt);
         prepStmt.setString(1, email);
         ResultSet rs = prepStmt.executeQuery();
@@ -121,21 +133,6 @@ public class User {
         prepStmt.close();
         rs.close();
         return false;
-    }
-
-    private int selectByName(String user) throws SQLException {
-        String stmt = "SELECT * FROM user WHERE userName=?";
-        PreparedStatement prepStmt = con.prepareStatement(stmt);
-        prepStmt.setString(1, user);
-        int result = 0;
-        ResultSet rs = prepStmt.executeQuery();
-        while (rs.next()) {
-            getResultData(rs);
-            result = userId;
-        }
-        rs.close();
-        prepStmt.close();
-        return result;
     }
 
     private void updatePassword(String pass) throws SQLException {
@@ -153,7 +150,6 @@ public class User {
         passHash = rs.getString("passHash");
         firstName = rs.getString("firstName");
         surName = rs.getString("surName");
-        email = rs.getString("email");
         phone = rs.getString("phone");
         type = rs.getString("type");
     }

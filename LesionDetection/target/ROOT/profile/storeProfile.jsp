@@ -1,7 +1,7 @@
 <%@page contentType="text/html"%>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <%@page import='com.skindeep.db.*,utils.*,java.sql.SQLException,java.util.*' %>
-<%@page errorPage='../error.jsp' %>
+<%//@page errorPage='../error.jsp' %>
 <html>
     <head>
         <script>
@@ -20,14 +20,13 @@
             }
 
             PasswordAuthentication auth = new PasswordAuthentication();
-            user.userName = request.getParameter("user");
+            user.userName = request.getParameter("email");
             user.passHash = auth.hash(request.getParameter("password").toCharArray());
             user.firstName = request.getParameter("firstName");
             user.surName = request.getParameter("surName");
             user.phone = request.getParameter("phone");
-            user.email = request.getParameter("user");
             user.type = "patient";
-            if (exist.getUserId(user.email) > 0) {
+            if (exist.getIdByEmail(user.userName) > 0) {
                 throw new JspException("User already exists. If you have forgotten your password please use the forgot my password link to reset");
             }
             try {
@@ -40,8 +39,8 @@
             token = auth.hash("authenticate".toCharArray());
 
             session.setAttribute("auth", token);
-            session.setAttribute("user", user.getUserId(request.getParameter("user")));
-            log.storeAuth(token, user.getUserId(request.getParameter("user")));
+            session.setAttribute("user", user.getIdByEmail(request.getParameter("user")));
+            log.storeAuth(token, user.getIdByEmail(request.getParameter("user")));
         %>
         <form action="myprofile.jsp" id="redirect">
         </form>

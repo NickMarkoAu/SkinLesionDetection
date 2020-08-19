@@ -29,8 +29,8 @@
                     token = auth.hash("authenticate".toCharArray());
 
                     session.setAttribute("auth", token);
-                    session.setAttribute("user", user.getUserId(request.getParameter("user")));
-                    log.storeAuth(token, user.getUserId(request.getParameter("user")));
+                    session.setAttribute("user", user.getIdByEmail(request.getParameter("user")));
+                    log.storeAuth(token, user.getIdByEmail(request.getParameter("user")));
         %>
         <form action="myProfile.jsp" id="redirect">
         </form>
