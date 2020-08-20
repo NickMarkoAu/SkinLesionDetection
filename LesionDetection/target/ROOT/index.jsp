@@ -61,7 +61,7 @@
                         Anything that you are willing to scan with this application you should also be willing to have checked by a medical professional. Please
                         have all skin lesions checked regularly!</p>
                     <p class="text-center"><button type="button" class="btn btn-outline-success" onclick="window.location.href = '../profile/index.jsp'">Agree and continue to main app</button></p>
-                    <p class="text-center"><button type="button" class="btn btn-outline-success" onclick="window.location.href = 'details.jsp'">Agree and continue to AI analysis</button></p>
+                    <p class="text-center"><button type="button" class="btn btn-outline-success" onclick="window.location.href = 'details.jsp?tc=true'">Agree and continue to AI analysis</button></p>
 
                 </div>
             </div>

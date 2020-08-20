@@ -3,7 +3,7 @@ window.onload = function () {
     for (var i = 0; pieces.length; i++) {
         let _piece = pieces[i];
         _piece.onclick = function (t) {
-            _piece.style.backgroundColor = "orange";
+            _piece.style.fill = "orange";
             if (t.target.getAttribute('data-position') !== null) {
                 document.getElementById('data').innerHTML = t.target.getAttribute('data-position');
                 document.getElementById('bodyPart').value = t.target.getAttribute('data-position');

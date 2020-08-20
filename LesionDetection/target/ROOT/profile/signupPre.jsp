@@ -47,9 +47,9 @@
                 <img class="mx-auto d-block" style="margin-top:10rem;max-width:300px;" src="../logo.png">
                 <div class="text-center" style="max-width:50%;margin:6rem auto 6rem auto;color:#333">
                     <div class="card text-left">
-                        <div class="card-header">Please Login</div>
+                        <div class="card-header">Sign Up</div>
                         <div class="card-body">
-                            <form id="Login" action="log.jsp">
+                            <form id="Login" action="signup.jsp">
                                 <div class="form-group">
                                     <label for="med-email">Email address</label>
                                     <input type="email" class="form-control" id="inputEmail" name="user" aria-describedby="emailHelp">

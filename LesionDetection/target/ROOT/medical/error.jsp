@@ -12,7 +12,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="stylesheet" type="text/css" href="mainstyle.css" />
+        <link rel="stylesheet" type="text/css" href="../mainstyle.css" />
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
         <title>Message</title>
         <jsp:include page="../header.jsp" flush="true" />
@@ -38,9 +38,6 @@
                     <input type='button' class='next' style="margin-left:45px;" value='BACK' onClick='history.go(-1)'>
                 </form>
             </div> 
-
-            <a href="sendError.jsp?message=<%=exception.getMessage()%>&stacktrace=<%=stackTrace%>" style="text-decoration: none;"><i class="fas fa-bug" style='font-size: 25px; color: #12BBF0'></i>&nbsp;&nbsp;If you think this page is being displayed incorrectly or there is a bunch of weird text above please click here to report to our development team.</a>
-
         </div>
     </center>
 </body>
