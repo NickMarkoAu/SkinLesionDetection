@@ -46,7 +46,7 @@
                 </form>
             </div>
             <div class="card-footer">
-                <a class="btn btn-primary btn-sm" href="new.jsp">Create account</a>
+                <a class="btn btn-primary btn-sm" href="signupPre.jsp">Create account</a>
                 <a class="btn btn-warning btn-sm" href="reset.jsp">Reset password</a>
             </div>
         </div>
