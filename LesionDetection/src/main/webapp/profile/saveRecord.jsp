@@ -21,7 +21,7 @@
         <%
 
             LesionEntry lesion = new LesionEntry();
-            lesion.bodyPart = request.getParameter("bodyPart");
+            lesion.bodyPart = request.getParameter("part");
             lesion.dateLogged = new OzDate(0);
             lesion.dateNoticed = new OzDate(request.getParameter("dateNoticed"));
             lesion.description = null;
@@ -38,27 +38,28 @@
             try {
                 lesion.store();
             } catch (SQLException e) {
-                throw new JspException("Could not store lesion record details, please try again");
+                throw new JspException("Could not store lesion record details, please try again " + e.getMessage());
             }
 
             Diagnosis dx = new Diagnosis();
             LesionDetectionTest detect = new LesionDetectionTest();
             HashMap<String, Double> resultMap = new HashMap<>();
             resultMap = detect.predictMap(lesion.image);
-
+            dx.userId = lesion.userId;
+            dx.lesionId = lesion.getId();
             dx.akiec = resultMap.get("akiec");
             dx.bcc = resultMap.get("bcc");
             dx.bkl = resultMap.get("bkl");
             dx.df = resultMap.get("df");
             dx.mel = resultMap.get("mel");
-            dx.nv = resultMap.get("nx");
+            dx.nv = resultMap.get("nv");
             dx.vasc = resultMap.get("vasc");
             dx.prediction = detect.maxDx(resultMap);
             dx.verified = false;
             try {
                 dx.store();
             } catch (SQLException e) {
-                throw new JspException("Could not store lesion record details, please try again");
+                throw new JspException("Could not store lesion record details, please try again  " + e.getMessage());
             }
             response.sendRedirect("myprofile.jsp");
 

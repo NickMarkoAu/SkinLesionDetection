@@ -25,9 +25,8 @@
             user.firstName = request.getParameter("firstName");
             user.surName = request.getParameter("surName");
             user.phone = request.getParameter("phone");
-            user.email = request.getParameter("user");
             user.type = "medical";
-            if (exist.getUserId(user.email) > 0) {
+            if (exist.getIdByEmail(user.userName) > 0) {
                 throw new JspException("User already exists. If you have forgotten your password please use the forgot my password link to reset");
             }
             try {
@@ -40,8 +39,8 @@
             token = auth.hash("authenticate".toCharArray());
 
             session.setAttribute("auth", token);
-            session.setAttribute("user", user.getUserId(request.getParameter("user")));
-            log.storeAuth(token, user.getUserId(request.getParameter("user")));
+            session.setAttribute("user", user.getIdByEmail(request.getParameter("user")));
+            log.storeAuth(token, user.getIdByEmail(request.getParameter("user")));
         %>
         <form action="myprofile.jsp" id="redirect">
         </form>

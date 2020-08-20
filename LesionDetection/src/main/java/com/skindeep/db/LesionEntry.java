@@ -72,6 +72,13 @@ public class LesionEntry {
         con = null;
     }
 
+    public void update() throws SQLException {
+        con = db.getConnect();
+        updateLesion();
+        con.close();
+        con = null;
+    }
+
     public int getNextId() throws SQLException {
         con = db.getConnect();
         int result = selectNextId();
@@ -107,7 +114,7 @@ public class LesionEntry {
     }
 
     private void insert() throws SQLException {
-        String stmt = "INSERT INTO lesions (lesionId, userId, description, image, dateLogged, bodyPart, diagnosed) VALUES (?,?,?,?,?,?,?)";
+        String stmt = "INSERT INTO lesions (lesionId, userId, description, image, dateLogged, bodyPart, diagnosed, dateNoticed) VALUES (?,?,?,?,?,?,?,?)";
         PreparedStatement prepStmt = con.prepareStatement(stmt);
         prepStmt.setInt(1, 0);
         prepStmt.setInt(2, userId);
@@ -116,9 +123,20 @@ public class LesionEntry {
         prepStmt.setString(5, dateLogged.toDb());
         prepStmt.setString(6, bodyPart);
         prepStmt.setBoolean(7, diagnosed);
+        prepStmt.setString(8, dateNoticed.toDb());
         prepStmt.executeUpdate();
         prepStmt.close();
 
+    }
+
+    private void updateLesion() throws SQLException {
+        String stmt = "UPDATE lesions SET description=?, diagnosed=? WHERE lesionId=?";
+        PreparedStatement prepStmt = con.prepareStatement(stmt);
+        prepStmt.setString(1, description);
+        prepStmt.setBoolean(2, diagnosed);
+        prepStmt.setInt(3, lesionId);
+        prepStmt.executeUpdate();
+        prepStmt.close();
     }
 
     private int selectNextId() throws SQLException {

@@ -58,6 +58,13 @@ public class Diagnosis {
         con = null;
     }
 
+    public void update() throws SQLException {
+        con = db.getConnect();
+        updateDiagnosis();
+        con.close();
+        con = null;
+    }
+
     public void findByLesion(int lId) throws SQLException {
         con = db.getConnect();
         selectByLesion(lId);
@@ -81,6 +88,16 @@ public class Diagnosis {
         prepStmt.setString(11, prediction);
         prepStmt.setBoolean(12, verified);
         prepStmt.setString(13, doctorDx);
+        prepStmt.executeUpdate();
+        prepStmt.close();
+    }
+
+    private void updateDiagnosis() throws SQLException {
+        String stmt = "UPDATE diagnosis SET verified=?, doctorDx=? WHERE dxId=?";
+        PreparedStatement prepStmt = con.prepareStatement(stmt);
+        prepStmt.setBoolean(1, verified);
+        prepStmt.setString(2, doctorDx);
+        prepStmt.setInt(3, dxId);
         prepStmt.executeUpdate();
         prepStmt.close();
     }

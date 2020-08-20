@@ -94,7 +94,7 @@
                                 <%=dx.prediction%>
                             </td>
                             <td>
-                                <button class="next" type="button" onclick="window.location.href = 'viewLesion.jsp?id=<%=lesion.getId()%>'">View</button>
+                                <button class="next" type="button" onclick="window.location.href = 'showLesion.jsp?id=<%=lesion.getId()%>'">View</button>
                             </td>
                         </tr>
                         <% }%>

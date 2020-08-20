@@ -47,5 +47,5 @@
         </header>      
         <main role="main" class="flex-shrink-0">
             <div class="container">
-                <img class="mx-auto d-block" style="margin-top:10rem;max-width:300px;" src="http://skindeep.tetradeca.com.au/logo.png">
+                <img class="mx-auto d-block" style="margin-top:10rem;max-width:200px;" src="http://skindeep.tetradeca.com.au/logo.png">
                 <div class="text-center" style="max-width:50%;margin:6rem auto 6rem auto;color:#333">

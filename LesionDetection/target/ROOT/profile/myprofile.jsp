@@ -36,19 +36,25 @@
         <jsp:include page="../header.jsp" flush="true" />
 
     <center>
-        <table>
+        <table style="width: 100%;">
             <tr>
                 <td>
-                    Body Part
+                    <b>Body Part</b>
                 </td>
                 <td>
-                    Date Logged:
+                    <b>Date Logged:</b>
                 </td>
                 <td>
-                    Date Noticed:
+                    <b>Date Noticed:</b>
                 </td>
                 <td>
-                    Image:
+                    <b>Image:</b>
+                </td>
+                <td>
+                    <b>Results</b>
+                </td>
+                <td>
+                    <b>View</b>
                 </td>
             </tr>
             <% if (entryList.isEmpty()) { %>
@@ -73,7 +79,17 @@
                     <%=lesion.dateNoticed.toOz()%>
                 </td>
                 <td>
-                    <img src="<%=lesion.image%>" width="100">
+                    <img src="<%=lesion.image%>" width="60">
+                </td>
+                <td>
+                    <% if (lesion.diagnosed) { %>
+                    <b style="color: green;">READY</b>
+                    <% } else { %>
+                    <b style="color: yellow">PENDING</b>
+                    <% }%>
+                </td>
+                <td>
+                    <button class="next" type="button" onclick="window.location.href = 'showLesion.jsp?id=<%=lesion.getId()%>'"><i class="fas fa-eye"></i></button>
                 </td>
             </tr>
             <% }%>

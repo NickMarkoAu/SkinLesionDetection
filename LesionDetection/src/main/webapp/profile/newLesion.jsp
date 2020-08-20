@@ -13,6 +13,13 @@
         <link rel="stylesheet" href="../partSelector/index.css">
         <link rel="stylesheet" href="../mainstyle.css">
         <title>New Spot</title>
+        <script>
+            function submitLesion() {
+                if (document.getElementById("bodyPart").value === "") {
+                    alert("Select a body part");
+                }
+            }
+        </script>
     </head>
     <body>
         <jsp:include page="../header.jsp" flush="true" />
@@ -20,7 +27,6 @@
         <%
             LesionEntry lesion = new LesionEntry();
             int nextId = lesion.getNextId();
-
         %>
         <table>
             <tr>
@@ -46,7 +52,7 @@
                 </td>
                 <td>
                     <form action ="saveRecord.jsp">
-                        <input type="hidden" name="part" id="bodyPart">
+                        <input type="hidden" name="part" id="bodyPart" value="">
                         Date first noticed: <input type="date" name="dateNoticed">
                         <h1>Upload the file you wish to diagnose</h1>
                         <br>
@@ -60,6 +66,9 @@
                 </td>
             </tr>
         </table>   
+        <br>
+        <br>
+        <br>
         <jsp:include page="../footer.jsp" flush="true" />
 
     </body>
