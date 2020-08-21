@@ -4,6 +4,7 @@
     Author     : nickm
 --%>
 
+<%@page import="com.microsoft.azure.cognitiveservices.vision.customvision.samples.Classification"%>
 <%@page import="com.skindeep.db.Diagnosis"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.skindeep.db.LesionEntry"%>
@@ -13,9 +14,14 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+        <link rel="stylesheet" href="../mainstyle.css">
+
         <title>Patient Profile</title>
     </head>
     <body>
+        <jsp:include page="../header.jsp" flush="true" />
+
         <%
             User user = new User();
             int id = Integer.parseInt(request.getParameter("id"));
@@ -29,7 +35,7 @@
                     <table>
                         <tr>
                             <td>
-                                First Name:
+                                <b> First Name:</b>
                             </td>
                             <td>
                                 <%=user.firstName%>
@@ -37,7 +43,7 @@
                         </tr>
                         <tr>
                             <td>
-                                Surname:
+                                <b>Surname:</b>
                             </td>
                             <td>
                                 <%=user.surName%>
@@ -45,7 +51,7 @@
                         </tr>
                         <tr>
                             <td>
-                                Phone:
+                                <b>Phone:</b>
                             </td>
                             <td>
                                 <%=user.phone%>
@@ -53,7 +59,7 @@
                         </tr>
                         <tr>
                             <td>
-                                Email:
+                                <b> Email:</b>
                             </td>
                             <td>
                                 <%=user.userName%>
@@ -61,10 +67,10 @@
                         </tr>
                         <tr>
                             <td>
-                                Actions:
+                                <b>Actions:</b>
                             </td>
                             <td>
-                                <button class="next" type="button">Make Appointment</button> &nbsp;&nbsp;Submit Results<button class="next" type="button">Submit Results</button>
+                                <button class="btn btn-primary btn-sm" type="button">Make Appointment</button>
                             </td>
                         </tr>
                     </table>
@@ -73,10 +79,10 @@
                     <table>
                         <tr>
                             <td>
-                                Lesion Location:
+                                <b>Lesion Location:</b>
                             </td>
                             <td>
-                                AI Prediction
+                                <b>AI Prediction</b>
                             </td>
                             <td>
 
@@ -91,10 +97,10 @@
                                 <%=lesion.bodyPart%>
                             </td>
                             <td>
-                                <%=dx.prediction%>
+                                <%=Classification.allClass().get(dx.prediction)%>
                             </td>
                             <td>
-                                <button class="next" type="button" onclick="window.location.href = 'showLesion.jsp?id=<%=lesion.getId()%>'">View</button>
+                                <button class="btn btn-primary btn-sm" type="button" onclick="window.location.href = 'showLesion.jsp?id=<%=lesion.getId()%>'"><i class="fas fa-eye"></i><</button>
                             </td>
                         </tr>
                         <% }%>
@@ -102,5 +108,9 @@
                 </td>
             </tr>
         </table>
+        <button class="btn btn-warning btn-sm" onclick="window.history.back()">Back</button>
+
+        <jsp:include page="../footer.jsp" flush="true" />
+
     </body>
 </html>

@@ -15,7 +15,7 @@
 
             User user = new User();
             User exist = new User();
-            if (!Var.isFilled(request.getParameter("email")) || !Var.isFilled(request.getParameter("password"))) {
+            if (!Var.isFilled(request.getParameter("user")) || !Var.isFilled(request.getParameter("password"))) {
                 throw new JspException("Please enter an email and a password");
             }
 
@@ -42,7 +42,7 @@
             session.setAttribute("user", user.getIdByEmail(request.getParameter("user")));
             log.storeAuth(token, user.getIdByEmail(request.getParameter("user")));
         %>
-        <form action="myprofile.jsp" id="redirect">
+        <form action="dashboard.jsp" id="redirect">
         </form>
     </BODY>
 </html>

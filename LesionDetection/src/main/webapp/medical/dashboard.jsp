@@ -24,19 +24,19 @@
             userList = user.getPatients();
         %>
         <h2>Pending Patient Reviews</h2>
-        <table>
+        <table style="width: 100%;">
             <tr>
                 <td>
-                    First Name:
+                    <b>First Name:</b>
                 </td>
                 <td>
-                    Surname:
+                    <b>Surname:</b>
                 </td>
                 <td>
-                    Lesions to review:
+                    <b>Lesions to review:</b>
                 </td>
                 <td>
-                    Severity Rating:
+                    <b>Severity Rating:</b>
                 </td>
                 <td></td>
             </tr>
@@ -59,7 +59,7 @@
                     TBA
                 </td>
                 <td>
-                    <button class="next" type="button" onclick="window.location.href = 'showProfile.jsp?id=<%=user.userId%>'">View</button>
+                    <button class="btn btn-primary btn-sm" type="button" onclick="window.location.href = 'showProfile.jsp?id=<%=user.userId%>'">View</button>
                 </td>
             </tr>
             <% }

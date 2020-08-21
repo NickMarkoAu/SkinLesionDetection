@@ -34,9 +34,9 @@
                 }
             }
             lesion.userId = (Integer) session.getAttribute("user");
-
+            int lesionId = 0;
             try {
-                lesion.store();
+                lesionId = lesion.store();
             } catch (SQLException e) {
                 throw new JspException("Could not store lesion record details, please try again " + e.getMessage());
             }
@@ -46,7 +46,7 @@
             HashMap<String, Double> resultMap = new HashMap<>();
             resultMap = detect.predictMap(lesion.image);
             dx.userId = lesion.userId;
-            dx.lesionId = lesion.getId();
+            dx.lesionId = lesionId;
             dx.akiec = resultMap.get("akiec");
             dx.bcc = resultMap.get("bcc");
             dx.bkl = resultMap.get("bkl");

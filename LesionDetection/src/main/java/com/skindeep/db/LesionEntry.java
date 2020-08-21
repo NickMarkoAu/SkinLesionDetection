@@ -20,6 +20,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import utils.BadDateException;
 import utils.Db;
@@ -58,11 +59,12 @@ public class LesionEntry {
         return result;
     }
 
-    public void store() throws SQLException {
+    public int store() throws SQLException {
         con = db.getConnect();
-        insert();
+        int result = insert();
         con.close();
         con = null;
+        return result;
     }
 
     public void find(int id) throws SQLException {
@@ -113,7 +115,8 @@ public class LesionEntry {
         }
     }
 
-    private void insert() throws SQLException {
+    private int insert() throws SQLException {
+        int result = 0;
         String stmt = "INSERT INTO lesions (lesionId, userId, description, image, dateLogged, bodyPart, diagnosed, dateNoticed) VALUES (?,?,?,?,?,?,?,?)";
         PreparedStatement prepStmt = con.prepareStatement(stmt);
         prepStmt.setInt(1, 0);
@@ -126,7 +129,15 @@ public class LesionEntry {
         prepStmt.setString(8, dateNoticed.toDb());
         prepStmt.executeUpdate();
         prepStmt.close();
-
+        try ( Statement aStmt = con.createStatement()) {
+            stmt = "select LAST_INSERT_ID() as newid from lesions";
+            try ( ResultSet rs = aStmt.executeQuery(stmt)) {
+                if (rs.next()) {
+                    result = rs.getInt("newid");
+                }
+            }
+        }
+        return result;
     }
 
     private void updateLesion() throws SQLException {
@@ -155,7 +166,7 @@ public class LesionEntry {
     protected void getResultData(ResultSet rs) throws SQLException {
         this.userId = rs.getInt("userId");
         this.lesionId = rs.getInt("lesionId");
-        this.description = rs.getString("descr");
+        this.description = rs.getString("description");
         this.image = rs.getString("image");
         this.bodyPart = rs.getString("bodyPart");
         this.diagnosed = rs.getBoolean("diagnosed");

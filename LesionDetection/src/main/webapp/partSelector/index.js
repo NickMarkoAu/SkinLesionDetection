@@ -12,6 +12,7 @@ window.onload = function () {
                 document.getElementById('data').innerHTML = t.target.parentElement.getAttribute('data-position');
                 document.getElementById('bodyPart').value = t.target.parentElement.getAttribute('data-position');
             }
+            submitPart();
         }
     }
 }

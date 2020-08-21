@@ -9,38 +9,43 @@
 <%@page import="utils.Var"%>
 <%@page import="com.skindeep.db.LesionEntry"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%//@page errorPage='../error.jsp' %>
+
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="../partSelector/index.css">
         <link rel="stylesheet" href="../mainstyle.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+
         <title>Show Lesion</title>
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
         <script type="text/javascript">
             google.charts.load('current', {'packages': ['corechart']});
-            google.charts.load('current', {'packages': ['bar']});
             google.charts.setOnLoadCallback(drawChart);
             function drawChart() {
                 var data = google.visualization.arrayToDataTable([
                     ['Diagnosis', 'Percentage of Liklihood'],
-                    ['<%=Classification.allClass().get("akiec")%>', document.getElementById("akiec")],
-                    ['<%=Classification.allClass().get("bcc")%>', document.getElementById("bcc")],
-                    ['<%=Classification.allClass().get("bkl")%>', document.getElementById("bkl")],
-                    ['<%=Classification.allClass().get("nv")%>', document.getElementById("nv")],
-                    ['<%=Classification.allClass().get("mel")%>', document.getElementById("mel")],
-                    ['<%=Classification.allClass().get("df")%>', document.getElementById("df")],
-                    ['<%=Classification.allClass().get("vasc")%>', document.getElementById("vasc")]
+                    ['<%=Classification.allClass().get("akiec")%>', parseFloat(document.getElementById("akiec").value)],
+                    ['<%=Classification.allClass().get("bcc")%>', parseFloat(document.getElementById("bcc").value)],
+                    ['<%=Classification.allClass().get("bkl")%>', parseFloat(document.getElementById("bkl").value)],
+                    ['<%=Classification.allClass().get("nv")%>', parseFloat(document.getElementById("nv").value)],
+                    ['<%=Classification.allClass().get("mel")%>', parseFloat(document.getElementById("mel").value)],
+                    ['<%=Classification.allClass().get("df")%>', parseFloat(document.getElementById("df").value)],
+                    ['<%=Classification.allClass().get("vasc")%>', parseFloat(document.getElementById("vasc").value)]
                 ]);
 
                 var options = {
                     title: 'AI Diagnosis',
-                    is3D: true,
+                    pieHole: 0.4,
                 };
 
                 var chart = new google.visualization.PieChart(document.getElementById('dxPie'));
                 chart.draw(data, options);
             }
+
             function confirmDx() {
                 if (confirm("Are you sure you wish to submit this diagnosis?")) {
                     document.getElementById("dxForm").submit();
@@ -84,11 +89,11 @@
                         <br>
                         <b>Breakdown: </b>
                         <br>
-                        <div id="dxPie"></div>
+                        <div id="dxPie" style="width: 400px;"></div>
                         <br>
                         <b>Description: </b>
                         <br>
-                        <textarea name="description" cols="200" rows="15"></textarea>
+                        <textarea name="description" cols="40" rows="5"><%=Var.varNull(lesion.description)%></textarea>
                         <br>
                         <b>Diagnosis: </b>
                         <select name="diagnosis">
@@ -103,10 +108,12 @@
                             <option value="inco">Inconclusive (Follow Up)</option>
                         </select>
                         <br>
-                        <button class="next" style="background-color: green;" type="button" onclick="confirmDx()">Submit Diagnosis</button>
                     </td>
                 </tr>
             </table>
+            <button class="btn btn-primary btn-sm" style="background-color: green;" type="button" onclick="confirmDx()">Submit Diagnosis</button>
+            <button class="btn btn-warning btn-sm" onclick="window.history.back()">Back</button>
+
         </form>
 
         <jsp:include page="../footer.jsp" flush="true" />

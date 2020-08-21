@@ -17,51 +17,33 @@
     <body id='loginForm'>
         <jsp:include page="../header.jsp" flush="true" />
         <%
-            String email = request.getParameter("email");
-            String password = request.getParameter("password");
+            String email = request.getParameter("user");
+            String password = request.getParameter("pass");
         %>
-        <div class="container">
-            <div class="login-form">
-                <div class="main-div">
-
-                    <h1>Create your profile</h1>
-                    <form action='storeProfile.jsp'>
-                        <table>
-                            <tr>
-                                <td>
-                                    First name
-                                </td>
-                                <td>
-                                    <input type='text' name='firstName'>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Surname</td>
-                                <td>
-                                    <input type='text' name='surName'>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Phone
-                                </td>
-                                <td>
-                                    <input type='text' name='phone'>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <button class='next' style='background-color: green;'>Submit</button>
-                                </td>
-                            </tr>
-                        </table>
-                        <input type="hidden" name="email" value="<%=email%>">
-                        <input type="hidden" name="password" value="<%=password%>">
-                    </form>
+        <main role="main" class="flex-shrink-0">
+            <div class="container text-center">
+                <div class="text-center" style="max-width:50%;margin:6rem auto 6rem auto;color:#333">
+                    <div class="card text-left">
+                        <div class="card-header">Create your profile</div>
+                        <div class="card-body">
+                            <form id="Login" action="storeProfile.jsp">
+                                <div class="form-group">
+                                    <label for="firstName">First Name</label>
+                                    <input type="text" class="form-control" id="firstname" name="firstName">
+                                </div>
+                                <div class="form-group">
+                                    <label for="surName">Surname</label>
+                                    <input type="surName" class="form-control" id="surName" name="surName">
+                                </div>
+                                <input type="hidden" name="user" value="<%=email%>">
+                                <input type="hidden" name="password" value="<%=password%>">
+                                <button type="submit" class="btn btn-success next">Create Account</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+        </main>
         <jsp:include page="../footer.jsp" flush="true" />
-
     </body>
 </html>

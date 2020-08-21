@@ -32,7 +32,7 @@
                     session.setAttribute("user", user.getIdByEmail(request.getParameter("user")));
                     log.storeAuth(token, user.getIdByEmail(request.getParameter("user")));
         %>
-        <form action="myprofile.jsp" id="redirect">
+        <form action="dashboard.jsp" id="redirect">
         </form>
         <% } else { %>
         <form action="index.jsp" id="redirect">

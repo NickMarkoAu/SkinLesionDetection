@@ -267,15 +267,9 @@ public class LesionDetectionTest {
         }
         String dxString = "";
         if (maxResult < 40) {
-            dxString += "<br><b>Diagnosis is inconclusive. Please check with a medical professional.</b>";
+            dxString += "Inconclusive";
         } else {
-            dxString += "<br><b>Diagnosis is " + Classification.allClass().get(maxDx) + " and is likely ";
-
-            if (Classification.likelyBenign(maxDx)) {
-                dxString += "benign</b>";
-            } else {
-                dxString += "malignant</b>";
-            }
+            dxString += maxDx;
         }
         return dxString;
     }
