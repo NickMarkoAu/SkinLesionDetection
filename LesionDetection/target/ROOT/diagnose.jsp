@@ -4,6 +4,7 @@
     Author     : nickm
 --%>
 
+<%@page import="utils.Var"%>
 <%@page import="com.microsoft.azure.cognitiveservices.vision.customvision.samples.Classification"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.io.File"%>
@@ -35,8 +36,13 @@
         <p style="width: 90%;">
             <%ArrayList dx = lesion.predict("http://skindeep.tetradeca.com.au/uploads/lesions/" + name + bodyPart + "/" + fileList[i].getName());
                 for (int j = 0; j < dx.size(); j++) {
-                    String current = (String) dx.get(j);%>
-            Diagnosis is <%=Classification.allClass().get(current)%> and is likely <%=Classification.likelyBenign(current)%><br>
+                    String current = (String) dx.get(j);
+                    String benign = "Benign";
+                    if (!Classification.likelyBenign(current)) {
+                        benign = "Malignant";
+                    }%>
+
+            Diagnosis is <%=Var.varNull(Classification.allClass().get(current))%>(<%=current%>) and is likely <%=benign%><br>
             <% } %>
             <% }
                 }

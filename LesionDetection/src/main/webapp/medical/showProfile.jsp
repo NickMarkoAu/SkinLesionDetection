@@ -100,7 +100,7 @@
                                 <%=Classification.allClass().get(dx.prediction)%>
                             </td>
                             <td>
-                                <button class="btn btn-primary btn-sm" type="button" onclick="window.location.href = 'showLesion.jsp?id=<%=lesion.getId()%>'"><i class="fas fa-eye"></i><</button>
+                                <button class="btn btn-primary btn-sm" type="button" onclick="window.location.href = 'showLesion.jsp?id=<%=lesion.getId()%>'"><i class="fas fa-eye"></i></button>
                             </td>
                         </tr>
                         <% }%>
